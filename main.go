@@ -1,7 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"context"
+
+	"github.com/gin-gonic/gin"
+	"github.com/s-owl/sowl_manager_backend/firebaseapp"
+)
 
 func main() {
-	fmt.Println("vim-go")
+
+	router := gin.Default()
+
+	// router Test
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	// firebase SDK Initialize
+	firebaseapp.InitFirebaseApp(context.Background())
+
+	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	router.Run(":8080")
 }
