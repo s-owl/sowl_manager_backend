@@ -8,6 +8,7 @@
 *.dll
 *.so
 *.dylib
+sowl_manager_backend
 
 # Test binary, built with `go test -c`
 *.test
@@ -23,3 +24,7 @@
 /Godeps/
 
 # End of https://www.toptal.com/developers/gitignore/api/go
+#
+# misc
+*.swp*
+.env
