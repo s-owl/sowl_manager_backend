@@ -11,8 +11,7 @@ import (
 
 // userSignupLogic 유저 회원 가입 로직
 func userSignupLogic(c context.Context, userData *models.UserData) (*models.User, error) {
-	emailDomain := strings.Split(userData.Email, "@")
-	if !strings.HasSuffix(emailDomain[1], "office.skhu.ac.kr") {
+	if !strings.HasSuffix(userData.Email, "office.skhu.ac.kr") {
 		return nil, EmailError
 	}
 
