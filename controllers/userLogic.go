@@ -11,8 +11,7 @@ import (
 
 // userSignupLogic 유저 회원 가입 로직
 func userSignupLogic(c context.Context, userData *models.UserData) (*models.User, error) {
-	emailDomain := strings.Split(userData.Email, "@")
-	if !strings.HasSuffix(emailDomain[1], "office.skhu.ac.kr") {
+	if !strings.HasSuffix(userData.Email, "office.skhu.ac.kr") {
 		return nil, EmailError
 	}
 
@@ -36,13 +35,21 @@ func userSignupLogic(c context.Context, userData *models.UserData) (*models.User
 	}
 
 	authClient := firebaseapp.App().Auth
+
+	// 에러가 발생하지 않으면 이 이메일로 존재하는 계정이 있다는 증명이다.
+	_, err := authClient.GetUserByEmail(c, userData.Email)
+	if err == nil {
+		return nil, EmailDuplicationError
+	}
+	err = nil
+
 	params := (&auth.UserToCreate{}).
 		Email(userData.Email).
 		EmailVerified(false).
 		Password(userData.Password).
 		DisplayName(userData.Name).
 		Disabled(false)
-	_, err := authClient.CreateUser(c, params)
+	_, err = authClient.CreateUser(c, params)
 	if err != nil {
 		return nil, UserCreateError
 	}
