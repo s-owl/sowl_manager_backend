@@ -1,0 +1,98 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/user/signup": {
+            "post": {
+                "description": "유저 회원가입 API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "유저 회원가입",
+                "operationId": "user-signup",
+                "parameters": [
+                    {
+                        "description": "유저 회원가입을 위한 양식",
+                        "name": "newAdminForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.InfoDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorDTO"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ErrorDTO": {
+            "type": "object",
+            "required": [
+                "error"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.InfoDTO": {
+            "type": "object",
+            "required": [
+                "info"
+            ],
+            "properties": {
+                "info": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserData": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "passwordCheck"
+            ],
+            "properties": {
+                "contact": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "passwordCheck": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
