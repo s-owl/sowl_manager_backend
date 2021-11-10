@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"log"
 	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/s-owl/sowl_manager_backend/models"
@@ -17,6 +17,16 @@ func UserController(router *gin.RouterGroup) {
 	}
 }
 
+// userSignup godoc
+// @Summary 유저 회원가입
+// @Description 유저 회원가입 API
+// @ID user-signup
+// @Accept json
+// @Produce json
+// @Param newAdminForm body models.UserData true "유저 회원가입을 위한 양식"
+// @Success 200 {object} models.InfoDTO
+// @Failure 400 {object} models.ErrorDTO
+// @Router /user/signup [post]
 func userSignup(c *gin.Context) {
 	var err error = nil
 	var user *models.User

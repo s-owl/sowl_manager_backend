@@ -1,0 +1,63 @@
+definitions:
+  models.ErrorDTO:
+    properties:
+      error:
+        type: string
+    required:
+    - error
+    type: object
+  models.InfoDTO:
+    properties:
+      info:
+        type: string
+    required:
+    - info
+    type: object
+  models.UserData:
+    properties:
+      contact:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      passwordCheck:
+        type: string
+    required:
+    - email
+    - password
+    - passwordCheck
+    type: object
+info:
+  contact: {}
+paths:
+  /user/signup:
+    post:
+      consumes:
+      - application/json
+      description: 유저 회원가입 API
+      operationId: user-signup
+      parameters:
+      - description: 유저 회원가입을 위한 양식
+        in: body
+        name: newAdminForm
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InfoDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorDTO'
+      summary: 유저 회원가입
+swagger: "2.0"
