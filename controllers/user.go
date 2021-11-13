@@ -23,17 +23,17 @@ func UserController(router *gin.RouterGroup) {
 // @ID user-signup
 // @Accept json
 // @Produce json
-// @Param newAdminForm body models.UserData true "유저 회원가입을 위한 양식"
+// @Param newAdminForm body models.UserSignupInput true "유저 회원가입을 위한 양식"
 // @Success 200 {object} models.InfoDTO
 // @Failure 400 {object} models.ErrorDTO
 // @Router /user/signup [post]
 func userSignup(c *gin.Context) {
 	var err error = nil
 	var user *models.User
-	userData := models.UserData{}
+	userInput := models.UserSignupInput{}
 
-	if err = c.ShouldBindJSON(&userData); err == nil {
-		user, err = userSignupLogic(c, &userData)
+	if err = c.ShouldBindJSON(&userInput); err == nil {
+		user, err = userSignupLogic(c, &userInput)
 	} else {
 		err = utils.GinJSONMarshalError(err)
 	}
