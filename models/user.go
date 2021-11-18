@@ -54,17 +54,16 @@ type User struct {
 }
 
 // CreateUser - 사용자 데이터를 입력받아 Auth, Firestore에 생성
-func (user *User) CreateUser(context context.Context, userInput *UserSignupInput) error {
+func RegisterUser(context context.Context, userInput *UserSignupInput) (user *User, err error) {
 	firestoreClient := firebaseapp.App().Firestore
 	authClient := firebaseapp.App().Auth
+	user = new(User);
 
 	// UserSignupInput에서 데이터 추출
 	user.Email = userInput.Email
 	user.Name = userInput.Name
 	user.Nickname = userInput.Nickname
 	user.Contact = userInput.Contact
-
-	var err error
 
 	// Auth에 회원 추가 시도
 	user2create := (&auth.UserToCreate{}).
@@ -75,19 +74,24 @@ func (user *User) CreateUser(context context.Context, userInput *UserSignupInput
 		Disabled(false)
 	user.userRecord, err = authClient.CreateUser(context, user2create)
 	if err != nil {
-		return utils.FirebaseAuthError(err)
+		user = nil
+		err = utils.FirebaseAuthError(err)
+		return
 	}
 
 	// Firestore에 저장 시도
 	_, _, err = firestoreClient.Collection(userCollection).Add(context, user)
 	if err != nil {
+		user = nil
+		err = utils.FirestoreError(err)
+
 		// firebase auth에서 삭제 시도를 하고 실패 시 gin에다 로깅한다.
 		authErr := authClient.DeleteUser(context, user.userRecord.UID)
 		if ginc, ok := context.(*gin.Context); ok && authErr != nil {
 			ginc.Error(err)
 		}
-		return utils.FirestoreError(err)
+		return
 	}
 
-	return nil
+	return
 }

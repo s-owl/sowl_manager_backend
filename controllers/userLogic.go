@@ -12,11 +12,10 @@ func userSignupLogic(c context.Context, userInput *models.UserSignupInput) (*mod
 		return nil, err
 	}
 
-	userInfo := models.User{}
-	err := userInfo.CreateUser(c, userInput)
+	userInfo, err := models.RegisterUser(c, userInput)
 	if err != nil {
 		return nil, err
 	}
 
-	return &userInfo, nil
+	return userInfo, nil
 }
