@@ -20,7 +20,7 @@ func (e *internalError) GetStatusCode() int {
 
 // Error error interface로 출력할 문자열
 func (e *internalError) Error() string {
-	return fmt.Sprintf("%s: %s, %s", e.ErrorCode, e.Message, e.internal)
+	return fmt.Sprintf("%s: %s", e.ErrorCode, e.internal)
 }
 
 // Unwrap Unwrap 기능을 활용해 내부 에러를 확인할 수 있게 한다.

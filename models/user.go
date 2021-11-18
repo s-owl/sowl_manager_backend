@@ -1,8 +1,8 @@
 package models
 
 import (
-	"strings"
 	"context"
+	"strings"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
@@ -80,16 +80,18 @@ func RegisterUser(context context.Context, userInput *UserSignupInput) (user *Us
 	}
 
 	// Firestore에 저장 시도
-	_, _, err = firestoreClient.Collection(userCollection).Add(context, user)
+	_, err = firestoreClient.Collection(userCollection).Doc(user.Email).Create(context, user)
 	if err != nil {
+		// firebase auth에서 삭제 시도를 하고 실패 시 gin에다 로깅한다.
+		if authErr := authClient.DeleteUser(context, user.userRecord.UID); authErr != nil {
+			if ginc, ok := context.(*gin.Context); ok {
+				ginc.Error(authErr)
+			}
+		}
+
 		user = nil
 		err = utils.FirestoreError(err)
 
-		// firebase auth에서 삭제 시도를 하고 실패 시 gin에다 로깅한다.
-		authErr := authClient.DeleteUser(context, user.userRecord.UID)
-		if ginc, ok := context.(*gin.Context); ok && authErr != nil {
-			ginc.Error(err)
-		}
 		return
 	}
 
