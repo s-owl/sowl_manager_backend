@@ -6,6 +6,21 @@ definitions:
     required:
     - error
     type: object
+  models.GroupRegistInput:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      permission:
+        type: boolean
+    required:
+    - category
+    - description
+    - name
+    type: object
   models.InfoDTO:
     properties:
       info:
@@ -13,7 +28,7 @@ definitions:
     required:
     - info
     type: object
-  models.UserData:
+  models.UserSignupInput:
     properties:
       contact:
         type: string
@@ -35,6 +50,31 @@ definitions:
 info:
   contact: {}
 paths:
+  /group/regist:
+    post:
+      consumes:
+      - application/json
+      description: 그룹 등록 API
+      operationId: group-regist
+      parameters:
+      - description: 그룹 등록을 위한 양식
+        in: body
+        name: newGroupForm
+        required: true
+        schema:
+          $ref: '#/definitions/models.GroupRegistInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InfoDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorDTO'
+      summary: 그룹 등록
   /user/signup:
     post:
       consumes:
@@ -44,10 +84,10 @@ paths:
       parameters:
       - description: 유저 회원가입을 위한 양식
         in: body
-        name: newAdminForm
+        name: newUserForm
         required: true
         schema:
-          $ref: '#/definitions/models.UserData'
+          $ref: '#/definitions/models.UserSignupInput'
       produces:
       - application/json
       responses:

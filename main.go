@@ -33,6 +33,7 @@ func main() {
 	})
 
 	controllers.UserController(api)
+	controllers.GroupController(api)
 
 	// firebase SDK Initialize
 	firebaseapp.InitFirebaseApp(context.Background())

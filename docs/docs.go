@@ -23,6 +23,44 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/group/regist": {
+            "post": {
+                "description": "그룹 등록 API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "그룹 등록",
+                "operationId": "group-regist",
+                "parameters": [
+                    {
+                        "description": "그룹 등록을 위한 양식",
+                        "name": "newGroupForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GroupRegistInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.InfoDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/user/signup": {
             "post": {
                 "description": "유저 회원가입 API",
@@ -37,11 +75,11 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "유저 회원가입을 위한 양식",
-                        "name": "newAdminForm",
+                        "name": "newUserForm",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserData"
+                            "$ref": "#/definitions/models.UserSignupInput"
                         }
                     }
                 ],
@@ -74,6 +112,28 @@ var doc = `{
                 }
             }
         },
+        "models.GroupRegistInput": {
+            "type": "object",
+            "required": [
+                "category",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "permission": {
+                    "type": "boolean"
+                }
+            }
+        },
         "models.InfoDTO": {
             "type": "object",
             "required": [
@@ -85,7 +145,7 @@ var doc = `{
                 }
             }
         },
-        "models.UserData": {
+        "models.UserSignupInput": {
             "type": "object",
             "required": [
                 "email",

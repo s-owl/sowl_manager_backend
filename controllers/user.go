@@ -23,7 +23,7 @@ func UserController(router *gin.RouterGroup) {
 // @ID user-signup
 // @Accept json
 // @Produce json
-// @Param newAdminForm body models.UserSignupInput true "유저 회원가입을 위한 양식"
+// @Param newUserForm body models.UserSignupInput true "유저 회원가입을 위한 양식"
 // @Success 200 {object} models.InfoDTO
 // @Failure 400 {object} models.ErrorDTO
 // @Router /user/signup [post]

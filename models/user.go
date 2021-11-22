@@ -53,7 +53,7 @@ type User struct {
 	Groups     []string          `json:"groups"`
 }
 
-// CreateUser - 사용자 데이터를 입력받아 Auth, Firestore에 생성
+// RegistUser - 사용자 데이터를 입력받아 Auth, Firestore에 생성
 func RegisterUser(context context.Context, userInput *UserSignupInput) (user *User, err error) {
 	firestoreClient := firebaseapp.App().Firestore
 	authClient := firebaseapp.App().Auth
