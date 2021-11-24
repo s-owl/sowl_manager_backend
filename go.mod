@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.6.0
 	firebase.google.com/go/v4 v4.6.0
 	github.com/gin-gonic/gin v1.7.4
+	github.com/sendgrid/sendgrid-go v3.10.3+incompatible
 	github.com/swaggo/gin-swagger v1.3.3
 	github.com/swaggo/swag v1.7.4
 )
@@ -35,6 +36,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/sendgrid/rest v2.6.5+incompatible // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
