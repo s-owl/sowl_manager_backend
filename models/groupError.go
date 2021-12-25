@@ -7,21 +7,9 @@ import (
 )
 
 var (
-	GroupNameError = &utils.AppError{
-		ErrorCode: "G1",
-		Message:   "Display name must not be empty",
-		StatusCode: http.StatusBadRequest,
-	}
-
-	GroupDescriptionError = &utils.AppError{
-		ErrorCode: "G2",
-		Message: "Display description must not be empty",
-		StatusCode: http.StatusBadRequest,
-	}
-
-	GroupCategoryError = &utils.AppError{
-		ErrorCode: "G3",
-		Message: "Choose Category must not be empty",
+	GroupFieldNullError = &utils.AppError{
+		ErrorCode:  "G1",
+		Message:    "Please input all the information",
 		StatusCode: http.StatusBadRequest,
 	}
 )

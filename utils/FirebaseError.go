@@ -14,7 +14,7 @@ func FirebaseAuthError(internal error) error {
 }
 
 func FirestoreError(internal error) error {
-	return &internalError {
+	return &internalError{
 		"F2",
 		"Database Error",
 		http.StatusInternalServerError,

@@ -1,20 +1,20 @@
 package firebaseapp
 
 import (
-		"context"
-		"log"
+	"context"
+	"log"
 
-		"cloud.google.com/go/firestore"
-		firebase "firebase.google.com/go/v4"
-		"firebase.google.com/go/v4/auth"
+	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/auth"
 )
 
 var app *FirebaseApp
 
 // FirebaseApp - 내부적으로 쓰는 Firebase 객체 담는 구조체
 type FirebaseApp struct {
-	App *firebase.App
-	Auth *auth.Client
+	App       *firebase.App
+	Auth      *auth.Client
 	Firestore *firestore.Client
 }
 
@@ -34,8 +34,8 @@ func InitFirebaseApp(ctx context.Context) {
 	}
 
 	app = &FirebaseApp{
-	    App: fapp,
-		Auth: authClient,
+		App:       fapp,
+		Auth:      authClient,
 		Firestore: firestoreClient,
 	}
 }
