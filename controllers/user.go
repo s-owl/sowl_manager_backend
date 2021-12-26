@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/s-owl/sowl_manager_backend/email"
-	"github.com/s-owl/sowl_manager_backend/firebaseapp"
 	"github.com/s-owl/sowl_manager_backend/models"
 	"github.com/s-owl/sowl_manager_backend/utils"
 )
@@ -31,8 +29,6 @@ func UserController(router *gin.RouterGroup) {
 // @Failure 400 {object} models.ErrorDTO
 // @Router /user/signup [post]
 func userSignup(c *gin.Context) {
-	authClient := firebaseapp.App().Auth
-
 	var err error = nil
 	var user *models.User
 	userInput := models.UserSignupInput{}
@@ -49,23 +45,14 @@ func userSignup(c *gin.Context) {
 		return
 	}
 
-	actionCodeSettings := &auth.ActionCodeSettings{
-		URL: "http://localhost:8080/api/user/signup",
-		HandleCodeInApp: false,
-	}
-
-	verifyLink, err := authClient.EmailVerificationLinkWithSettings(c, user.Email, actionCodeSettings)
+	verifyLink, err := email.ExtractVerifyLink(c, userInput.Email)
 	if err != nil {
-		err = fmt.Errorf("VerifyEmailLink: %w", err)
-		utils.VerifyLinkError(err)
+		log.Printf("VerifyLink Error: %v", err)
 		return
 	}
-
-	fmt.Println(user.Email, verifyLink)
-	err = email.SendMail(user.Email, verifyLink)
+	err = email.SendEmail(userInput.Email, verifyLink)
 	if err != nil {
-		err = fmt.Errorf("SendEmail: %w", err)
-		utils.SendEmailError(err)
+		log.Printf("SendEmail Error: %v", err)
 		return
 	}
 

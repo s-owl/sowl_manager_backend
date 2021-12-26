@@ -45,19 +45,19 @@ func (userInput *UserSignupInput) Validate() error {
 
 // User - Firestore에 저장할 사용자 데이터와 Auth와 통신할 데이터
 type User struct {
-	userRecord *auth.UserRecord  `json:"-"`
-	Email      string            `json:"email"`
-	Name       string            `json:"name"`
-	Nickname   string            `json:"nickname"`
-	Contact    string            `json:"contact"`
-	Groups     []string          `json:"groups"`
+	userRecord *auth.UserRecord `json:"-"`
+	Email      string           `json:"email"`
+	Name       string           `json:"name"`
+	Nickname   string           `json:"nickname"`
+	Contact    string           `json:"contact"`
+	Groups     []string         `json:"groups"`
 }
 
 // CreateUser - 사용자 데이터를 입력받아 Auth, Firestore에 생성
 func RegisterUser(context context.Context, userInput *UserSignupInput) (user *User, err error) {
 	firestoreClient := firebaseapp.App().Firestore
 	authClient := firebaseapp.App().Auth
-	user = new(User);
+	user = new(User)
 
 	// UserSignupInput에서 데이터 추출
 	user.Email = userInput.Email
