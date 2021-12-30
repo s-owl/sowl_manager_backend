@@ -1,18 +1,18 @@
 package email
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"firebase.google.com/go/v4/auth"
-	"github.com/gin-gonic/gin"
 	"github.com/s-owl/sowl_manager_backend/firebaseapp"
 	"github.com/s-owl/sowl_manager_backend/utils"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-func ExtractVerifyLink(c *gin.Context, email string) (string, error) {
+func ExtractVerifyLink(context context.Context, email string) (string, error) {
 	authClient := firebaseapp.App().Auth
 
 	actionCodeSettings := &auth.ActionCodeSettings{
@@ -20,7 +20,7 @@ func ExtractVerifyLink(c *gin.Context, email string) (string, error) {
 		HandleCodeInApp: false,
 	}
 
-	verifyLink, err := authClient.EmailVerificationLinkWithSettings(c, email, actionCodeSettings)
+	verifyLink, err := authClient.EmailVerificationLinkWithSettings(context, email, actionCodeSettings)
 	if err != nil {
 		err = fmt.Errorf("VerifyEmailLink: %w", err)
 		utils.VerifyLinkError(err)
