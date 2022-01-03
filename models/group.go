@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/s-owl/sowl_manager_backend/firebaseapp"
@@ -38,7 +37,6 @@ func (group *GroupRegistInput) Validate() error {
 	// 그룹 국문명이 한글인지 확인
 	for _, value := range group.KoreanName {
 		if value < 44032 || value > 55203 {
-			fmt.Println(value)
 			return GroupKoreanNameError
 		}
 	}
@@ -46,7 +44,6 @@ func (group *GroupRegistInput) Validate() error {
 	// 그룹 영문명이 알파벳 소문자인지 확인
 	for _, value := range group.EnglishName {
 		if value < 97 || value > 122 {
-			fmt.Println(value)
 			return GroupEnglishNameError
 		}
 	}
