@@ -47,12 +47,14 @@ func userSignup(c *gin.Context) {
 
 	verifyLink, err := email.ExtractVerifyLink(c, userInput.Email)
 	if err != nil {
-		log.Printf("VerifyLink Error: %v", err)
+		err = utils.VerifyLinkError(err)
+		utils.AbortWithHTTPError(c, err)
 		return
 	}
 	err = email.SendEmail(userInput.Email, verifyLink)
 	if err != nil {
-		log.Printf("SendEmail Error: %v", err)
+		err = utils.SendEmailError(err)
+		utils.AbortWithHTTPError(c, err)
 		return
 	}
 
