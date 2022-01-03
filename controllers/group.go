@@ -16,7 +16,7 @@ func GroupController(router *gin.RouterGroup) {
 	r := router.Group("/group")
 	r.Use(middlewares.AdminUserMiddleware())
 	{
-		r.POST("/regist", groupRegist)
+		r.POST("/regist", groupRegister)
 	}
 }
 
@@ -30,20 +30,20 @@ func GroupController(router *gin.RouterGroup) {
 // @Success 200 {object} models.InfoDTO
 // @Failure 400 {object} models.ErrorDTO
 // @Router /group/regist [post]
-func groupRegist(c *gin.Context) {
+func groupRegister(c *gin.Context) {
 	var err error = nil
 	var group *models.Group
-	groupInput := models.GroupRegistInput{}
+	groupInput := models.GroupRegisterInput{}
 	adminUser := c.MustGet("user").(*auth.UserRecord)
 
 	if err = c.ShouldBindJSON(&groupInput); err == nil {
-		group, err = groupRegistLogic(c, &groupInput, adminUser.UserInfo.Email)
+		group, err = groupRegisterLogic(c, &groupInput, adminUser.UserInfo.Email)
 	} else {
 		err = utils.GinJSONMarshalError(err)
 	}
 
 	if err != nil {
-		err = fmt.Errorf("GroupRegist: %w", err)
+		err = fmt.Errorf("GroupRegister: %w", err)
 		utils.AbortWithHTTPError(c, err)
 		return
 	}

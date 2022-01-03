@@ -11,7 +11,7 @@ import (
 const groupCollection = "groups"
 
 // GroupRegistInput - 그룹 등록 데이터
-type GroupRegistInput struct {
+type GroupRegisterInput struct {
 	KoreanName  string `json:"koreanName" binding:"required"`
 	EnglishName string `json:"englishName" binding:"required"`
 	Description string `json:"description" binding:"required"`
@@ -32,7 +32,7 @@ type Group struct {
 }
 
 // Validate - 그룹 등록 데이터를 검증한다.
-func (group *GroupRegistInput) Validate() error {
+func (group *GroupRegisterInput) Validate() error {
 
 	// 그룹 국문명이 한글인지 확인
 	for _, value := range group.KoreanName {
@@ -56,8 +56,8 @@ func (group *GroupRegistInput) Validate() error {
 	return nil
 }
 
-// RegistGroup - 그룹의 데이터를 입력받아 Firestore에 생성
-func RegistGroup(context context.Context, groupInput *GroupRegistInput, userEmail string) (group *Group, err error) {
+// RegisterGroup - 그룹의 데이터를 입력받아 Firestore에 생성
+func RegisterGroup(context context.Context, groupInput *GroupRegisterInput, userEmail string) (group *Group, err error) {
 	firestoreClient := firebaseapp.App().Firestore
 	group = new(Group)
 
